@@ -1,5 +1,9 @@
-use actix_web::{dev::MessageBody, error::PayloadError, Error, HttpResponse};
-use bytes::{Bytes, BytesMut};
+use actix_web::{
+    dev::MessageBody,
+    error::PayloadError,
+    web::{Bytes, BytesMut},
+    Error, HttpResponse,
+};
 use futures::{
     future::ready,
     stream::{Stream, StreamExt},
@@ -13,11 +17,12 @@ pub fn random_string(size: usize) -> String {
     rand::thread_rng()
         .sample_iter(&Alphanumeric)
         .take(size)
+        .map(char::from)
         .collect::<String>()
 }
 
 /// Reads file content into string result.
-pub fn read_file(file: &str) -> Result<String, anyhow::Error> {
+pub fn read_file(file: &str) -> Result<String, Error> {
     let mut file = File::open(file)?;
     let mut content = String::new();
     let _ = file.read_to_string(&mut content);
@@ -64,7 +69,6 @@ mod tests {
         test::{call_service, init_service, TestRequest},
         web, App, HttpResponse,
     };
-    use bytes::Bytes;
     use futures::{future::ok, stream};
 
     #[test]

@@ -28,7 +28,7 @@ impl Drop for TestServer {
     }
 }
 
-pub fn new<A, F, R, T, U>(addr: A, func: F) -> Result<TestServer, anyhow::Error>
+pub fn new<A, F, R, T, U>(addr: A, func: F) -> Result<TestServer>
 where
     A: ToSocketAddrs + 'static + Send + Copy,
     F: Factory<T, R, U> + 'static + Send + Copy,
@@ -56,10 +56,10 @@ where
         sys.run()
     });
 
-    let (server, sockets) = rx.recv()?;
+    let (server, sockets) = rx.recv().map_err(|e| log::error!("{}", e))?;
     let socket = sockets
         .get(0)
-        .ok_or_else(|| anyhow::anyhow!("Failed to get socket addr!"))?;
+        .ok_or(log::error!("Failed to get socket addr!"))?;
 
     Ok(TestServer {
         instance: Rc::new(server),

@@ -14,13 +14,13 @@ test-server = { git = "https://github.com/ChriFo/test-server-rs", tag = "0.9.1" 
 
 ```rust,skt-test
 // start server at random port
-let _ = test_server::new("127.0.0.1:0", test_server::HttpResponse::Ok)?;
+let _ = test_server::new("127.0.0.1:0", test_server::HttpResponse::Ok).unwrap();
 
 // start server at given port
 let server = test_server::new("127.0.0.1:8080", |req: test_server::HttpRequest| {
     println!("{:#?}", req);
     test_server::HttpResponse::Ok().body("hello world")
-})?;
+}).unwrap();
 
 // request against server
 let _ = get_request(&server.url());

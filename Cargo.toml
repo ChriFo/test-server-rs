@@ -9,18 +9,17 @@ edition = "2018"
 build = "build.rs"
 
 [dependencies]
-actix-rt = "1.1.1"
-actix-web = { version = "3.0.2", default-features = false }
-anyhow = "1.0.32"
-bytes = "0.5.6"
-crossbeam-channel = "0.4.4"
-futures = "0.3.5"
-http = "0.2.1"
-rand = "0.7.3"
+actix-rt = "1.1"
+actix-web = { version = "3.3", default-features = false }
+crossbeam-channel = "0.5"
+futures = "0.3"
+http = "0.2"
+log = "0.4"
+rand = "0.8"
 
 [build-dependencies]
-skeptic = { git = "https://github.com/budziq/rust-skeptic.git", branch = "tempfile" }
+skeptic = "0.13"
 
 [dev-dependencies]
-skeptic = { git = "https://github.com/budziq/rust-skeptic.git", branch = "tempfile" }
-ureq = { version = "1.4.1", default-features = false }
+skeptic = "0.13"
+ureq = { version = "1.5", default-features = false }
